@@ -1,5 +1,7 @@
 package com.robertobatts.springcustom.cache;
 
-public interface Cacheable<T extends Key> {
+import java.io.Serializable;
+
+public interface Cacheable<T extends Key> extends Serializable {
     public T getKey();
 }

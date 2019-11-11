@@ -1,6 +1,7 @@
 package com.robertobatts.springcustom.cache;
 
 import com.robertobatts.springcustom.config.cache.CachingApplicationConfiguration;
+import com.robertobatts.springcustom.config.cache.HazelcastConfiguration;
 import com.robertobatts.springcustom.domain.CustomObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +19,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = CachingCollectionElementsIndividuallyTest.ConfigurationTest.class)
-public class CachingCollectionElementsIndividuallyTest {
+@ContextConfiguration(classes = HazelcastTest.ConfigurationTest.class)
+public class HazelcastTest {
 
     @Autowired
     private DummyService dummyService;
@@ -30,31 +31,15 @@ public class CachingCollectionElementsIndividuallyTest {
     @Test
     public void cacheHitsAndMisses() {
 
-        List<CustomObject> objects = new ArrayList<CustomObject>() {{
-            add(new CustomObject(new CustomObject.PrimaryKey("123ABC", "boh"), "123D"));
-            add(new CustomObject(new CustomObject.PrimaryKey("QWERTY", "ciao"), "76567D"));
-        }};
-
-        dummyService.getObjects(objects);
+        dummyService.getObject(new CustomObject(new CustomObject.PrimaryKey("123ABC", "boh"), "123D"));
         assertThat(this.dummyService.isCacheMiss()).isTrue();
 
         dummyService.getObject(new CustomObject(new CustomObject.PrimaryKey("123ABC", "boh"), "123D"));
         assertThat(this.dummyService.isCacheMiss()).isFalse();
 
-        dummyService.getObject(new CustomObject.PrimaryKey("123ABC", "boh"));
-        assertThat(this.dummyService.isCacheMiss()).isFalse();
-
-        dummyService.getObject(new CustomObject.PrimaryKey("QWERTY", "ciao"));
-        assertThat(this.dummyService.isCacheMiss()).isFalse();
-
-        dummyService.getObjects(objects);
-        assertThat(this.dummyService.isCacheMiss()).isFalse();
-
-        objects.add((new CustomObject(new CustomObject.PrimaryKey("ABCDEFG", "YEAH"), "123D")));
-        dummyService.getObjects(objects);
-        assertThat(this.dummyService.isCacheMiss()).isTrue();
-
     }
+
+
 
     @Service
     protected static class DummyService {
@@ -94,7 +79,7 @@ public class CachingCollectionElementsIndividuallyTest {
     }
 
 
-    protected static class ConfigurationTest extends CachingApplicationConfiguration {
+    protected static class ConfigurationTest extends HazelcastConfiguration {
         @Bean
         public DummyService dummyService() {
             return new DummyService();

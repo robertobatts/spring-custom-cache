@@ -1,4 +1,6 @@
 package com.robertobatts.springcustom.cache;
 
-public class Key {
+import java.io.Serializable;
+
+public class Key implements Serializable {
 }

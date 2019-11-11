@@ -1,5 +1,9 @@
 package com.robertobatts.springcustom.config.cache;
 
+
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.spring.cache.HazelcastCacheManager;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -18,6 +22,7 @@ public class CachingApplicationConfiguration {
 
             @Override
             protected Cache createConcurrentMapCache(String name) {
+
                 return new ConcurrentMapCollectionHandlingDecoratedCache(super.createConcurrentMapCache(name));
             }
         };
