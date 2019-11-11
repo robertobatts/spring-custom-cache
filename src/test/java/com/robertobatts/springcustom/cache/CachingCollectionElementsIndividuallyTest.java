@@ -5,14 +5,12 @@ import com.robertobatts.springcustom.domain.CustomObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +37,20 @@ public class CachingCollectionElementsIndividuallyTest {
         dummyService.getObject(new CustomObject(new CustomObject.PrimaryKey("123ABC", "boh"), "123D"));
         assertThat(this.dummyService.isCacheMiss()).isFalse();
 
+        dummyService.getObject(new CustomObject.PrimaryKey("123ABC", "boh"));
+        assertThat(this.dummyService.isCacheMiss()).isFalse();
+
+        dummyService.getObject(new CustomObject.PrimaryKey("QWERTY", "ciao"));
+        assertThat(this.dummyService.isCacheMiss()).isFalse();
+
+        dummyService.getObjects(objects);
+        assertThat(this.dummyService.isCacheMiss()).isFalse();
+
+        objects.add((new CustomObject(new CustomObject.PrimaryKey("ABCDEFG", "YEAH"), "123D")));
+        dummyService.getObjects(objects);
+        assertThat(this.dummyService.isCacheMiss()).isTrue();
+
     }
-
-
 
     @Service
     protected static class DummyService {
@@ -72,12 +81,18 @@ public class CachingCollectionElementsIndividuallyTest {
             setCacheMiss(true);
             return object;
         }
+
+        @Cacheable("objects")
+        public CustomObject getObject(CustomObject.PrimaryKey key) {
+            setCacheMiss(true);
+            return new CustomObject(key, "something");
+        }
     }
 
 
     protected static class ConfigurationTest extends CachingApplicationConfiguration {
         @Bean
-        public DummyService calculatorService() {
+        public DummyService dummyService() {
             return new DummyService();
         }
     }
