@@ -8,7 +8,7 @@ import java.util.stream.StreamSupport;
 
 public class ConcurrentMapCollectionHandlingDecoratedCache extends CollectionHandlingDecoratedCache {
 
-    protected ConcurrentMapCollectionHandlingDecoratedCache(final Cache cache) {
+    public ConcurrentMapCollectionHandlingDecoratedCache(final Cache cache) {
         super(cache);
     }
 

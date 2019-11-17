@@ -1,6 +1,6 @@
 package com.robertobatts.springcustom.cache;
 
-import com.robertobatts.springcustom.config.cache.CachingApplicationConfiguration;
+import com.robertobatts.springcustom.config.CachingApplicationConfiguration;
 import com.robertobatts.springcustom.domain.CustomObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;

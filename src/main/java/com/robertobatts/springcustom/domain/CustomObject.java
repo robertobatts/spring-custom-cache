@@ -2,10 +2,14 @@ package com.robertobatts.springcustom.domain;
 
 import com.robertobatts.springcustom.cache.Cacheable;
 import com.robertobatts.springcustom.cache.Key;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 
 import java.util.Objects;
 
+@KeySpace("objects")
 public class CustomObject implements Cacheable<CustomObject.PrimaryKey> {
+    @Id
     private PrimaryKey pk;
     private String field;
 

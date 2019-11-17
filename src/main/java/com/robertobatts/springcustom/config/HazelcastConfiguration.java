@@ -1,4 +1,4 @@
-package com.robertobatts.springcustom.config.cache;
+package com.robertobatts.springcustom.config;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.spring.cache.HazelcastCacheManager;

@@ -1,8 +1,8 @@
 package com.robertobatts.springcustom.cache;
 
-import com.robertobatts.springcustom.config.cache.CachingApplicationConfiguration;
-import com.robertobatts.springcustom.config.cache.HazelcastConfiguration;
+import com.robertobatts.springcustom.config.HazelcastConfiguration;
 import com.robertobatts.springcustom.domain.CustomObject;
+import com.robertobatts.springcustom.persistence.ObjectRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,7 @@ public class HazelcastTest {
 
         dummyService.getObject(new CustomObject(new CustomObject.PrimaryKey("123ABC", "boh"), "123D"));
         assertThat(this.dummyService.isCacheMiss()).isFalse();
+
 
     }
 
